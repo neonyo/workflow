@@ -22,14 +22,18 @@ func TestWorkflowNoJobs(f *testing.T) {
 		&Task6Action{},
 		&Task7Action{},
 	})
-	taskGraph, _ := NewGraph(
-		NewTask("task1", nil, ActionMap["task1"]),
-		NewTask("task2", []string{"task1"}, ActionMap["task2"]),
-		NewTask("task3", []string{"task1"}, ActionMap["task3"]),
-		NewTask("task4", []string{"task2"}, ActionMap["task4"]),
-		NewTask("task5", []string{"task3"}, ActionMap["task5"]),
-		NewTask("task6", nil, ActionMap["task6"]),
-	)
+	//NewTask("task1", nil, ActionMap["task1"]),
+	//		NewTask("task2", []string{"task1"}, ActionMap["task2"]),
+	//		NewTask("task3", []string{"task1"}, ActionMap["task3"]),
+	//		NewTask("task4", []string{"task2"}, ActionMap["task4"]),
+	//		NewTask("task5", []string{"task3"}, ActionMap["task5"]),
+	//		NewTask("task6", nil, ActionMap["task6"]),
+	taskGraph, _ := NewGraph(InitialOption{
+		Ins: []struct {
+			Name     string
+			DependOn string
+		}{},
+	})
 	var params = make(map[string]int)
 	params["id"] = 1
 	err := taskGraph.Run(context.Background(), params)
