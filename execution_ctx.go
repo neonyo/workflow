@@ -81,7 +81,13 @@ func (ec *executionCtx) runTask(t Task) {
 	if ec.hasEncounteredErr() {
 		return
 	}
-	res, err := t.fn.Run(ec.ctx, ec.params, ec.results)
+	var (
+		res Result
+		err error
+	)
+	if ec.ctx.Value(t.name) != Success && ec.ctx.Value(t.name) != Skipped {
+		res, err = t.fn.Run(ec.ctx, ec.params, ec.results)
+	}
 	if err != nil {
 		ec.markFailure(err)
 		// Do not queue up additional tasks after encountering an error
@@ -89,6 +95,9 @@ func (ec *executionCtx) runTask(t Task) {
 	}
 
 	ec.results.Store(t.name, res)
+	if res.NextStatus == Blocked {
+		return
+	}
 
 	for dep := range ec.g.taskToDependants[t.name] {
 		if ec.taskToNumdeps[dep].Add(-1) == int32(0) {

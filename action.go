@@ -7,7 +7,7 @@ import (
 // Action is the interface that user action must implement
 type Action interface {
 	Name() string
-	Run(ctx context.Context, params interface{}, res Results) (interface{}, error)
+	Run(ctx context.Context, params interface{}, res Results) (Result, error)
 }
 
 // BeforeAction run before run action

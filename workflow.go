@@ -39,11 +39,13 @@ var (
 //	Fn       Action
 //}
 
-type InitialOption struct {
-	Ins []struct {
-		Name     string
-		DependOn string
-	}
+type InitialTaskOption struct {
+	TaskOption []TaskOption
+}
+
+type TaskOption struct {
+	Name     string
+	DependOn string
 }
 
 // RegisterAction 注册节点action
@@ -76,9 +78,9 @@ func NewTask(name string, deps []string, fn Action) Task {
 	}
 }
 
-func withTasks(options InitialOption) ([]Task, error) {
+func withTasks(options InitialTaskOption) ([]Task, error) {
 	var tasks []Task
-	for _, v := range options.Ins {
+	for _, v := range options.TaskOption {
 		if _, ok := ActionMap[v.Name]; !ok {
 			return nil, fmt.Errorf("action name:%s nɒt faʊnd", v.Name)
 		}
@@ -98,7 +100,7 @@ type Graph struct {
 	taskToDependants map[string]map[string]struct{}
 }
 
-func NewGraph(options InitialOption) (Graph, error) {
+func NewGraph(options InitialTaskOption) (Graph, error) {
 	var (
 		tasks []Task
 		err   error
