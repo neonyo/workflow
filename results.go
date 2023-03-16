@@ -26,7 +26,7 @@ func (r Results) Store(taskName string, result Result) {
 }
 
 type Result struct {
-	Status     Status
-	NextStatus Status
-	Data       interface{}
+	Status Status
+	//NextStatus Status
+	Data interface{}
 }

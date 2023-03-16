@@ -95,9 +95,9 @@ func (ec *executionCtx) runTask(t Task) {
 	}
 
 	ec.results.Store(t.name, res)
-	if res.NextStatus == Blocked {
-		return
-	}
+	//if res.NextStatus == Blocked {
+	//	return
+	//}
 
 	for dep := range ec.g.taskToDependants[t.name] {
 		if ec.taskToNumdeps[dep].Add(-1) == int32(0) {
