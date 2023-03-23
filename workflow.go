@@ -178,6 +178,8 @@ func (g Graph) isWellFormed() error {
 	return nil
 }
 
-func (g Graph) Run(ctx context.Context, params interface{}) error {
-	return newExecutionCtx(ctx, g).run(params)
+func (g Graph) Run(ctx context.Context, params interface{}) (Results, error) {
+	execution := newExecutionCtx(ctx, g)
+	err := execution.run(params)
+	return execution.results, err
 }
