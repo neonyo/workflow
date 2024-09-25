@@ -1,3 +1,3 @@
 module github.com/neonyo/workflow
 
-go 1.65
+go 1.16
